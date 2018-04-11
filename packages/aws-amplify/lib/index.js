@@ -12,30 +12,14 @@
  * and limitations under the License.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-var Analytics_1 = require("./Analytics");
-exports.Analytics = Analytics_1.default;
-exports.AnalyticsClass = Analytics_1.AnalyticsClass;
 var Auth_1 = require("./Auth");
 exports.Auth = Auth_1.default;
 exports.AuthClass = Auth_1.AuthClass;
-var Storage_1 = require("./Storage");
-exports.Storage = Storage_1.default;
-exports.StorageClass = Storage_1.StorageClass;
 var API_1 = require("./API");
 exports.API = API_1.default;
 exports.APIClass = API_1.APIClass;
-var PubSub_1 = require("./PubSub");
-exports.PubSub = PubSub_1.default;
-var I18n_1 = require("./I18n");
-exports.I18n = I18n_1.default;
-var Cache_1 = require("./Cache");
-exports.Cache = Cache_1.default;
 var Common_1 = require("./Common");
 exports.Logger = Common_1.ConsoleLogger;
-exports.Hub = Common_1.Hub;
-exports.JS = Common_1.JS;
-exports.ClientDevice = Common_1.ClientDevice;
-exports.Signer = Common_1.Signer;
 var logger = new Common_1.ConsoleLogger('Amplify');
 var Amplify = /** @class */ (function () {
     function Amplify() {
@@ -45,12 +29,7 @@ var Amplify = /** @class */ (function () {
             return;
         }
         Auth_1.default.configure(config);
-        I18n_1.default.configure(config);
-        Analytics_1.default.configure(config);
         API_1.default.configure(config);
-        Storage_1.default.configure(config);
-        Cache_1.default.configure(config);
-        PubSub_1.default.configure(config);
         return config;
     };
     Amplify.addPluggable = function (pluggable) {
@@ -58,7 +37,6 @@ var Amplify = /** @class */ (function () {
             var category = pluggable.getCategory();
             switch (category) {
                 case 'Analytics':
-                    Analytics_1.default.addPluggable(pluggable);
                     break;
                 case 'Auth':
                     break;
@@ -69,7 +47,6 @@ var Amplify = /** @class */ (function () {
                 case 'Storage':
                     break;
                 case 'PubSub':
-                    PubSub_1.default.addPluggable(pluggable);
                     break;
                 default:
                     break;
@@ -77,22 +54,12 @@ var Amplify = /** @class */ (function () {
         }
     };
     Amplify.Auth = null;
-    Amplify.Analytics = null;
     Amplify.API = null;
-    Amplify.Storage = null;
-    Amplify.I18n = null;
-    Amplify.Cache = null;
-    Amplify.PubSub = null;
     Amplify.Logger = null;
     return Amplify;
 }());
 exports.default = Amplify;
 Amplify.Auth = Auth_1.default;
-Amplify.Analytics = Analytics_1.default;
 Amplify.API = API_1.default;
-Amplify.Storage = Storage_1.default;
-Amplify.I18n = I18n_1.default;
-Amplify.Cache = Cache_1.default;
-Amplify.PubSub = PubSub_1.default;
 Amplify.Logger = Common_1.ConsoleLogger;
 //# sourceMappingURL=index.js.map
