@@ -6388,7 +6388,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        message: data.message || data.Message || null
 	      };
 	      return callback(error);
-	    }).catch(function () {
+	    }).catch(function (err) {
 	      // default to return 'UnknownError'
 	      var error = { code: 'UnknownError', message: 'Unkown error' };
 
