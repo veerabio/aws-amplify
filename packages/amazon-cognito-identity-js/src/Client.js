@@ -62,7 +62,7 @@ export default class Client {
         };
         return callback(error);
       })
-      .catch((err) => {
+      .catch(err => {
         // default to return 'UnknownError'
         let error = { code: 'UnknownError', message: 'Unkown error' };
 
