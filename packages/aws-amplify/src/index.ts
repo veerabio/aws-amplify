@@ -11,43 +11,22 @@
  * and limitations under the License.
  */
 
-import Analytics, { AnalyticsClass, AnalyticsProvider } from './Analytics';
 import Auth, { AuthClass } from './Auth';
-import Storage, { StorageClass } from './Storage';
 import API, { APIClass } from './API';
-import PubSub from './PubSub';
-import I18n from './I18n';
-import Cache from './Cache';
-import {
-    ConsoleLogger as Logger,
-    Hub,
-    JS,
-    ClientDevice,
-    Signer
-} from './Common';
+import { ConsoleLogger as Logger } from './Common';
 
 const logger = new Logger('Amplify');
 
 export default class Amplify {
     static Auth: AuthClass = null;
-    static Analytics: AnalyticsClass = null;
     static API: APIClass = null;
-    static Storage: StorageClass = null;
-    static I18n = null;
-    static Cache = null;
-    static PubSub = null;
 
     static Logger = null;
 
     static configure(config) {
         if (!config) { return; }
         Auth.configure(config);
-        I18n.configure(config);
-        Analytics.configure(config);
         API.configure(config);
-        Storage.configure(config);
-        Cache.configure(config);
-        PubSub.configure(config);
 
         return config;
     }
@@ -57,7 +36,6 @@ export default class Amplify {
             const category = pluggable.getCategory();
             switch(category) {
                 case 'Analytics':
-                    Analytics.addPluggable(pluggable);
                     break;
                 case 'Auth':
                     break;
@@ -68,7 +46,6 @@ export default class Amplify {
                 case 'Storage':
                     break;
                 case 'PubSub':
-                    PubSub.addPluggable(pluggable);
                     break;
                 default:
                     break;
@@ -78,14 +55,8 @@ export default class Amplify {
 }
 
 Amplify.Auth = Auth;
-Amplify.Analytics = Analytics;
 Amplify.API = API;
-Amplify.Storage = Storage;
-Amplify.I18n = I18n;
-Amplify.Cache = Cache;
-Amplify.PubSub = PubSub;
-
 Amplify.Logger = Logger;
 
-export { Auth, Analytics, Storage, API, PubSub, I18n, Logger, Hub, Cache, JS, ClientDevice, Signer };
-export { AuthClass, AnalyticsClass, APIClass, StorageClass, AnalyticsProvider };
+export { Auth, API, Logger };
+export { AuthClass, APIClass };
