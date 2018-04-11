@@ -40,6 +40,13 @@ export default class Client {
       .then(resp => {
         response = resp;
         return resp;
+      }, err => {
+        // If error happens here, the request failed
+        // if it is TypeError throw network error
+        if (err instanceof TypeError) {
+          throw new Error('Network error');
+        }
+        throw err;
       })
       .then(resp => resp.json().catch(() => ({})))
       .then(data => {
@@ -56,14 +63,30 @@ export default class Client {
         return callback(error);
       })
       .catch(() => {
-        // Taken from aws-sdk-js/lib/protocol/json.js
-        const code = (response.headers.get('x-amzn-errortype') || 'UnknownError').split(':')[0];
-        const error = {
-          code,
-          name: code,
-          statusCode: response.status,
-          message: response.status.toString(),
-        };
+        // default to return 'UnknownError'
+        let error = { code: 'UnknownError', message: 'Unkown error' };
+
+        // first check if we have a service error
+        if (response && response.headers && response.headers.get('x-amzn-errortype')) {
+          try {
+            const code = (response.headers.get('x-amz-errortype')).split(':')[0];
+            error = {
+              code,
+              name: code,
+              statusCode: response.status,
+              message: (response.status) ? response.status.toString() : null,
+            };
+          } catch (ex) {
+              // pass through so it doesn't get swallowed if we can't parse it
+          }
+        // otherwise check if error is Network error
+        } else if (err instanceof Error) {
+          error = {
+            code: 'UnknownError',
+            name: err.name,
+            message: err.message,
+          };
+        }
         return callback(error);
       });
   }
